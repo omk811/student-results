@@ -1,37 +1,53 @@
-<script>
-  let sheetData = [];
-
-  const publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1ssG6zMPQqA0XqIdihDdRPu5TZk6j2rTuAIT3fiU5E1Y/pubhtml';
-
-  function init() {
-    Tabletop.init({
-      key: publicSpreadsheetUrl,
-      callback: function(data) {
-        console.log("📊 البيانات من Google Sheet:", data);
-        sheetData = data;
-      },
-      simpleSheet: true
-    });
-  }
-
-  function checkResult() {
-    const id = document.getElementById("studentId").value.trim();
-    const resultDiv = document.getElementById("result");
-
-    console.log("🔍 البحث عن:", id);
-
-    const student = sheetData.find(row => String(row["رقم الطالب"]).trim() === id);
-
-    if (student) {
-      console.log("✅ تم العثور:", student);
-      resultDiv.textContent = "نتيجتك: " + student["النتيجة"];
-      resultDiv.style.color = "green";
-    } else {
-      console.warn("❌ لم يتم العثور على الرقم");
-      resultDiv.textContent = "عذراً، الرقم غير موجود.";
-      resultDiv.style.color = "red";
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>نتائج الاختبار</title>
+  <style>
+    body {
+      font-family: Tahoma, Arial;
+      text-align: center;
+      margin-top: 100px;
+      direction: rtl;
     }
-  }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>أدخل رقمك لمعرفة نتيجتك</h2>
+  <input type="text" id="studentId" placeholder="رقم السجل">
+  <button onclick="checkResult()">عرض النتيجة</button>
+  <div id="result"></div>
 
-  window.addEventListener('DOMContentLoaded', init);
-</script>
+  <script>
+    // قاعدة بيانات مصغرة (ممكن تجيبها من JSON خارجي أو Google Sheet لاحقاً)
+    const results = {
+      "101": "درجة الطالب: 18/20",
+      "102": "درجة الطالب: 15/20",
+      "103": "درجة الطالب: 20/20",
+      "104": "درجة الطالب: 12/20"
+    };
+
+    function checkResult() {
+      const id = document.getElementById("studentId").value;
+      const resultDiv = document.getElementById("result");
+
+      if (results[id]) {
+        resultDiv.textContent = results[id];
+      } else {
+        resultDiv.textContent = "عذراً، الرقم غير موجود.";
+        resultDiv.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
