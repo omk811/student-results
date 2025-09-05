@@ -42,13 +42,66 @@
       color: #f44336;
       background-color: #ffebee;
     }
+    
+    /* تنسيق الجدول للطباعة */
+    .print-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px auto;
+      font-size: 16px;
+      direction: rtl;
+    }
+    .print-table th, .print-table td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: center;
+    }
+    .print-table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .print-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .print-section, .print-section * {
+        visibility: visible;
+      }
+      .print-section {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+      button {
+        display: none;
+      }
+      h2 {
+        display: none;
+      }
+      input {
+        display: none;
+      }
+      #result {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
   <h2>أدخل رقمك لمعرفة نتائجك</h2>
   <input type="text" id="studentId" placeholder="رقم الطالب (مثل: 1)" onkeypress="if(event.key==='Enter') checkResult()">
+  <br>
   <button onclick="checkResult()">عرض النتائج</button>
+  <button onclick="printTable()" id="printBtn" style="display:none;">🖨️ طباعة النتائج</button>
   <div id="result"></div>
+  
+  <!-- قسم الطباعة المخفي -->
+  <div class="print-section" id="printSection" style="display:none;"></div>
 
   <script>
     // قاعدة بيانات مصغرة (بدون أسماء)
@@ -88,16 +141,21 @@
       "33": { oral: 10, homework: 4.5, listening: 3.5, exam1: 15, exam2: 11, writing: 8, total: 52, final: 20 }
     };
 
+    let currentStudentData = null;
+
     function checkResult() {
       const id = document.getElementById("studentId").value.trim();
       const resultDiv = document.getElementById("result");
+      const printBtn = document.getElementById("printBtn");
 
       if (!id) {
         resultDiv.innerHTML = '<div class="result-item error">يرجى إدخال رقم الطالب.</div>';
+        printBtn.style.display = "none";
         return;
       }
 
       if (results[id]) {
+        currentStudentData = results[id];
         const student = results[id];
         resultDiv.innerHTML = `
           <div class="result-item oral">العرض الشفوي: ${student.oral || 'غير متوفر'}</div>
@@ -109,9 +167,75 @@
           <div class="result-item total">المجموع: ${student.total}</div>
           <div class="result-item final">النهائي: ${student.final}</div>
         `;
+        printBtn.style.display = "inline-block";
       } else {
         resultDiv.innerHTML = '<div class="result-item error">عذراً، الرقم غير موجود.</div>';
+        printBtn.style.display = "none";
       }
+    }
+
+    function printTable() {
+      if (!currentStudentData) return;
+      
+      const student = currentStudentData;
+      const printSection = document.getElementById("printSection");
+      
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('ar-SA');
+      const timeStr = now.toLocaleTimeString('ar-SA');
+      
+      printSection.innerHTML = `
+        <div style="text-align:center; margin-bottom:20px;">
+          <h2>نتائج الطالب</h2>
+          <p>تاريخ الطباعة: ${dateStr} - الوقت: ${timeStr}</p>
+        </div>
+        <table class="print-table">
+          <thead>
+            <tr>
+              <th>نوع التقييم</th>
+              <th>الدرجة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>العرض الشفوي</td>
+              <td>${student.oral || 'غير متوفر'}</td>
+            </tr>
+            <tr>
+              <td>الواجب المنزلي</td>
+              <td>${student.homework || 'غير متوفر'}</td>
+            </tr>
+            <tr>
+              <td>التسميع</td>
+              <td>${student.listening || 'غير متوفر'}</td>
+            </tr>
+            <tr>
+              <td>الاختبار الأول</td>
+              <td>${student.exam1 || 'غير متوفر'}</td>
+            </tr>
+            <tr>
+              <td>الاختبار الثاني</td>
+              <td>${student.exam2 || 'غير متوفر'}</td>
+            </tr>
+            <tr>
+              <td>التعبير الكتابي</td>
+              <td>${student.writing || 'غير متوفر'}</td>
+            </tr>
+            <tr style="background-color:#e8f5e8; font-weight:bold;">
+              <td>المجموع</td>
+              <td>${student.total}</td>
+            </tr>
+            <tr style="background-color:#e3f2fd; font-weight:bold;">
+              <td>الدرجة النهائية</td>
+              <td>${student.final}</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+      
+      printSection.style.display = "block";
+      window.print();
+      printSection.style.display = "none";
     }
   </script>
 </body>
