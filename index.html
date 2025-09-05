@@ -2,24 +2,11 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>نتائج الاختبار</title>
+  <title>نتائج الطلاب</title>
   <style>
-    body {
-      font-family: Tahoma, Arial;
-      text-align: center;
-      margin-top: 100px;
-      direction: rtl;
-    }
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: green;
-    }
+    body { font-family: Tahoma; text-align:center; margin-top:50px; direction:rtl; }
+    input, button { padding:10px; font-size:16px; }
+    #result { margin-top:20px; font-size:20px; font-weight:bold; }
   </style>
 </head>
 <body>
@@ -29,42 +16,43 @@
   <div id="result"></div>
 
   <script>
-    // قاعدة بيانات مصغرة (ممكن تجيبها من JSON خارجي أو Google Sheet لاحقاً)
-    const results = { 
-103	:	302,
-104	:	303,
-105	:	304,
-106	:	305,
-107	:	306,
-108	:	307,
-109	:	308,
-110	:	309
-111	:	310
-112	:	311
-113	:	312
-114	:	313
-115	:	314
-116	:	315
-117	:	316
-118	:	317
-119	:	318
-120	:	319
-121	:	320
-122	:	321
-123	:	322
-124	:	323
-125	:	324
-126	:	325
-
-
+    // قاعدة بيانات الطلاب
+    const results = {
+      "101": "301",
+      "102": "301",
+      "103": "302",
+      "104": "303",
+      "105": "304",
+      "106": "305",
+      "107": "306",
+      "108": "307",
+      "109": "308",
+      "110": "309",
+      "111": "310",
+      "112": "311",
+      "113": "312",
+      "114": "313",
+      "115": "314",
+      "116": "315",
+      "117": "316",
+      "118": "317",
+      "119": "318",
+      "120": "319",
+      "121": "320",
+      "122": "321",
+      "123": "322",
+      "124": "323",
+      "125": "324",
+      "126": "325"
     };
 
     function checkResult() {
-      const id = document.getElementById("studentId").value;
+      const id = document.getElementById("studentId").value.trim();
       const resultDiv = document.getElementById("result");
 
       if (results[id]) {
-        resultDiv.textContent = results[id];
+        resultDiv.textContent = "نتيجتك: " + results[id];
+        resultDiv.style.color = "green";
       } else {
         resultDiv.textContent = "عذراً، الرقم غير موجود.";
         resultDiv.style.color = "red";
@@ -73,8 +61,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
