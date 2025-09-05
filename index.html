@@ -64,6 +64,20 @@
       background-color: #f2f2f2;
     }
     
+    /* توقيع الاستاذ */
+    .teacher-signature {
+      text-align: left;
+      margin-top: 30px;
+      padding: 20px;
+      border-top: 2px solid #333;
+    }
+    .teacher-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 10px;
+    }
+    
     @media print {
       body * {
         visibility: hidden;
@@ -164,8 +178,8 @@
           <div class="result-item exam1">الاختبار الأول: ${student.exam1 || 'غير متوفر'}</div>
           <div class="result-item exam2">الاختبار الثاني: ${student.exam2 || 'غير متوفر'}</div>
           <div class="result-item writing">التعبير الكتابي: ${student.writing || 'غير متوفر'}</div>
-          <div class="result-item total">مجموع التقويم المستمر: ${student.total}</div>
-          <div class="result-item final">الامتحان النهائي: ${student.final}</div>
+          <div class="result-item total">المجموع: ${student.total}</div>
+          <div class="result-item final">النهائي: ${student.final}</div>
         `;
         printBtn.style.display = "inline-block";
       } else {
@@ -231,6 +245,12 @@
             </tr>
           </tbody>
         </table>
+        <div class="teacher-signature">
+          <div style="text-align:left; margin-top:50px;">
+            <div>التوقيع: ________________</div>
+            <div class="teacher-name">الأستاذ خليل البلوشي</div>
+          </div>
+        </div>
       `;
       
       printSection.style.display = "block";
@@ -240,5 +260,3 @@
   </script>
 </body>
 </html>
-
-
