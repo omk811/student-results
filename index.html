@@ -24,14 +24,13 @@
 </head>
 <body>
   <h2>أدخل رقمك لمعرفة نتيجتك</h2>
-  <input type="text" id="studentId" placeholder="رقم السجل">
+  <input type="text" id="studentId" placeholder="رقم السجل" onkeypress="if(event.key==='Enter') checkResult()">
   <button onclick="checkResult()">عرض النتيجة</button>
   <div id="result"></div>
 
   <script>
-    // قاعدة بيانات مصغرة (ممكن تجيبها من JSON خارجي أو Google Sheet لاحقاً)
     const results = {
-     "101": "301",
+      "101": "301",
       "102": "301",
       "103": "302",
       "104": "303",
@@ -56,15 +55,23 @@
       "123": "322",
       "124": "323",
       "125": "324",
-      "126": "325"
+      "126": "325",
     };
 
     function checkResult() {
-      const id = document.getElementById("studentId").value;
+      const id = document.getElementById("studentId").value.trim();
       const resultDiv = document.getElementById("result");
 
+      resultDiv.style.color = "green";
+
+      if (!id) {
+        resultDiv.textContent = "يرجى إدخال رقم السجل.";
+        resultDiv.style.color = "red";
+        return;
+      }
+
       if (results[id]) {
-        resultDiv.textContent = results[id];
+        resultDiv.textContent = "النتيجة: " + results[id];
       } else {
         resultDiv.textContent = "عذراً، الرقم غير موجود.";
         resultDiv.style.color = "red";
