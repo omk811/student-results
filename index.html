@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>نتائج الاختبار</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.4/tabletop.min.js"></script>
+  <style>
+    body { font-family: Tahoma; text-align:center; margin-top:50px; direction:rtl; }
+    input, button { padding:10px; font-size:16px; }
+    #result { margin-top:20px; font-size:20px; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <h2>أدخل رقمك لمعرفة نتيجتك</h2>
+  <input type="text" id="studentId" placeholder="رقم السجل">
+  <button onclick="checkResult()">عرض النتيجة</button>
+  <div id="result"></div>
+
+  <script>
+    let sheetData = [];
+
+    // ضع هنا ID الخاص بجدول Google Sheets (موجود في الرابط)
+    const publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBsEZHLk_RxY1KG8HFwOlbbrdjTmuD0h2itnvD3UUj6vP4Uc6ATjUAOC0jPJqOeiUfHxHw8KZ42Q95/pubhtml';
+
+    function init() {
+      Tabletop.init({
+        key: publicSpreadsheetUrl,
+        callback: function(data) {
+          sheetData = data;
+        },
+        simpleSheet: true
+      });
+    }
+
+    function checkResult() {
+      const id = document.getElementById("studentId").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      const student = sheetData.find(row => row["رقم الطالب"] === id);
+      if (student) {
+        resultDiv.textContent = "نتيجتك: " + student["النتيجة"];
+        resultDiv.style.color = "green";
+      } else {
+        resultDiv.textContent = "عذراً، الرقم غير موجود.";
+        resultDiv.style.color = "red";
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
