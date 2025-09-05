@@ -18,22 +18,26 @@
     #result {
       margin-top: 20px;
       font-size: 18px;
-      font-weight: bold;
+      line-height: 1.8;
     }
     .result-item {
       margin: 10px 0;
       padding: 10px;
       border-radius: 5px;
       background-color: #f0f8ff;
+      display: inline-block;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
     }
-    .homework {
-      color: #2196F3;
-      border-right: 5px solid #2196F3;
-    }
-    .quiz {
-      color: #4CAF50;
-      border-right: 5px solid #4CAF50;
-    }
+    .oral { color: #FF9800; }
+    .homework { color: #2196F3; }
+    .listening { color: #9C27B0; }
+    .exam1 { color: #4CAF50; }
+    .exam2 { color: #E91E63; }
+    .writing { color: #00BCD4; }
+    .total { color: #FF5722; }
+    .final { color: #3F51B5; }
     .error {
       color: #f44336;
       background-color: #ffebee;
@@ -42,40 +46,46 @@
 </head>
 <body>
   <h2>أدخل رقمك لمعرفة نتائجك</h2>
-  <input type="text" id="studentId" placeholder="رقم السجل" onkeypress="if(event.key==='Enter') checkResult()">
-  <br>
+  <input type="text" id="studentId" placeholder="رقم الطالب (مثل: 1)" onkeypress="if(event.key==='Enter') checkResult()">
   <button onclick="checkResult()">عرض النتائج</button>
   <div id="result"></div>
 
   <script>
-    // قاعدة بيانات مصغرة مع نتيقتين لكل طالب
+    // قاعدة بيانات مصغرة (بدون أسماء)
     const results = {
-      "101": { homework: "85", quiz: "78" },
-      "102": { homework: "92", quiz: "88" },
-      "103": { homework: "76", quiz: "82" },
-      "104": { homework: "88", quiz: "90" },
-      "105": { homework: "95", quiz: "93" },
-      "106": { homework: "82", quiz: "79" },
-      "107": { homework: "90", quiz: "85" },
-      "108": { homework: "87", quiz: "89" },
-      "109": { homework: "79", quiz: "84" },
-      "110": { homework: "93", quiz: "91" },
-      "111": { homework: "86", quiz: "87" },
-      "112": { homework: "91", quiz: "86" },
-      "113": { homework: "84", quiz: "88" },
-      "114": { homework: "89", quiz: "92" },
-      "115": { homework: "94", quiz: "90" },
-      "116": { homework: "81", quiz: "77" },
-      "117": { homework: "88", quiz: "85" },
-      "118": { homework: "92", quiz: "89" },
-      "119": { homework: "85", quiz: "83" },
-      "120": { homework: "90", quiz: "87" },
-      "121": { homework: "87", quiz: "91" },
-      "122": { homework: "83", quiz: "85" },
-      "123": { homework: "89", quiz: "88" },
-      "124": { homework: "91", quiz: "90" },
-      "125": { homework: "86", quiz: "84" },
-      "126": { homework: "93", quiz: "92" }
+      "1": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 10, total: 60, final: 40 },
+      "2": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 14, writing: 10, total: 59, final: 38 },
+      "3": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 10, writing: 9, total: 54, final: 32 },
+      "4": { oral: 10, homework: 5, listening: 5, exam1: 12, exam2: 10, writing: 10, total: 52, final: 20 },
+      "5": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 9, writing: 8, total: 52, final: 33 },
+      "6": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 13, writing: 10, total: 58, final: 28 },
+      "7": { oral: 7, homework: 4, listening: 5, exam1: 15, exam2: 8, writing: 8, total: 47, final: 19 },
+      "8": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 9, writing: 8, total: 52, final: 19 },
+      "9": { oral: 10, homework: 5, listening: 4, exam1: 15, exam2: 6, writing: 8, total: 48, final: 17 },
+      "10": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 10, total: 60, final: 39 },
+      "11": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 10, total: 60, final: 39 },
+      "12": { oral: 10, homework: 4.5, listening: 3.5, exam1: 14, exam2: 8, writing: 8, total: 48, final: 17 },
+      "13": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 13, writing: 8, total: 56, final: 28 },
+      "14": { oral: "", homework: "", listening: "", exam1: "", exam2: "", writing: "", total: 45, final: 5 },
+      "15": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 10, total: 60, final: 38 },
+      "16": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 10, total: 60, final: 37 },
+      "17": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 11, writing: 10, total: 56, final: 36 },
+      "18": { oral: 9, homework: 5, listening: 5, exam1: 15, exam2: 10, writing: 8, total: 52, final: 28 },
+      "19": { oral: 10, homework: 5, listening: 4, exam1: 15, exam2: 11, writing: 8, total: 53, final: 37 },
+      "20": { oral: 9, homework: 5, listening: 4, exam1: 11, exam2: 5, writing: 10, total: 44, final: 13 },
+      "21": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 13, writing: 8, total: 56, final: 30 },
+      "22": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 9, total: 59, final: 35 },
+      "23": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 10, writing: 8, total: 53, final: 29 },
+      "24": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 10, total: 60, final: 37 },
+      "25": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 14, writing: 10, total: 59, final: 34 },
+      "26": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 14, writing: 8, total: 57, final: 27 },
+      "27": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 13, writing: 10, total: 58, final: 35 },
+      "28": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 9, total: 59, final: 39 },
+      "29": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 15, writing: 10, total: 60, final: 31 },
+      "30": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 11, writing: 10, total: 56, final: 37 },
+      "31": { oral: 10, homework: 5, listening: 5, exam1: 14, exam2: 15, writing: 10, total: 59, final: 39 },
+      "32": { oral: 10, homework: 5, listening: 5, exam1: 15, exam2: 13, writing: 8, total: 56, final: 30 },
+      "33": { oral: 10, homework: 4.5, listening: 3.5, exam1: 15, exam2: 11, writing: 8, total: 52, final: 20 }
     };
 
     function checkResult() {
@@ -83,19 +93,21 @@
       const resultDiv = document.getElementById("result");
 
       if (!id) {
-        resultDiv.innerHTML = '<div class="result-item error">يرجى إدخال رقم السجل.</div>';
+        resultDiv.innerHTML = '<div class="result-item error">يرجى إدخال رقم الطالب.</div>';
         return;
       }
 
       if (results[id]) {
         const student = results[id];
         resultDiv.innerHTML = `
-          <div class="result-item homework">
-            📚 الواجب المنزلي: ${student.homework}
-          </div>
-          <div class="result-item quiz">
-            📝 الاختبار القصير: ${student.quiz}
-          </div>
+          <div class="result-item oral">العرض الشفوي: ${student.oral || 'غير متوفر'}</div>
+          <div class="result-item homework">الواجب المنزلي: ${student.homework || 'غير متوفر'}</div>
+          <div class="result-item listening">التسميع: ${student.listening || 'غير متوفر'}</div>
+          <div class="result-item exam1">الاختبار الأول: ${student.exam1 || 'غير متوفر'}</div>
+          <div class="result-item exam2">الاختبار الثاني: ${student.exam2 || 'غير متوفر'}</div>
+          <div class="result-item writing">التعبير الكتابي: ${student.writing || 'غير متوفر'}</div>
+          <div class="result-item total">المجموع: ${student.total}</div>
+          <div class="result-item final">النهائي: ${student.final}</div>
         `;
       } else {
         resultDiv.innerHTML = '<div class="result-item error">عذراً، الرقم غير موجود.</div>';
