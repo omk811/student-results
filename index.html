@@ -7,74 +7,95 @@
     body {
       font-family: Tahoma, Arial;
       text-align: center;
-      margin-top: 100px;
+      margin-top: 50px;
       direction: rtl;
     }
     input, button {
       padding: 10px;
       font-size: 16px;
+      margin: 5px;
     }
     #result {
       margin-top: 20px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
-      color: green;
+    }
+    .result-item {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f0f8ff;
+    }
+    .homework {
+      color: #2196F3;
+    }
+    .quiz {
+      color: #4CAF50;
+    }
+    .error {
+      color: #f44336;
     }
   </style>
 </head>
 <body>
-  <h2>أدخل رقمك لمعرفة نتيجتك</h2>
+  <h2>أدخل رقمك لمعرفة نتائجك</h2>
   <input type="text" id="studentId" placeholder="رقم السجل" onkeypress="if(event.key==='Enter') checkResult()">
-  <button onclick="checkResult()">عرض النتيجة</button>
+  <br>
+  <button onclick="checkResult()">عرض النتائج</button>
   <div id="result"></div>
 
   <script>
+    // قاعدة بيانات مصغرة مع نتيقتين لكل طالب
     const results = {
-      "101": "301",
-      "102": "301",
-      "103": "302",
-      "104": "303",
-      "105": "304",
-      "106": "305",
-      "107": "306",
-      "108": "307",
-      "109": "308",
-      "110": "309",
-      "111": "310",
-      "112": "311",
-      "113": "312",
-      "114": "313",
-      "115": "314",
-      "116": "315",
-      "117": "316",
-      "118": "317",
-      "119": "318",
-      "120": "319",
-      "121": "320",
-      "122": "321",
-      "123": "322",
-      "124": "323",
-      "125": "324",
-      "126": "325",
+      "101": { homework: "85", quiz: "78" },
+      "102": { homework: "92", quiz: "88" },
+      "103": { homework: "76", quiz: "82" },
+      "104": { homework: "88", quiz: "90" },
+      "105": { homework: "95", quiz: "93" },
+      "106": { homework: "82", quiz: "79" },
+      "107": { homework: "90", quiz: "85" },
+      "108": { homework: "87", quiz: "89" },
+      "109": { homework: "79", quiz: "84" },
+      "110": { homework: "93", quiz: "91" },
+      "111": { homework: "86", quiz: "87" },
+      "112": { homework: "91", quiz: "86" },
+      "113": { homework: "84", quiz: "88" },
+      "114": { homework: "89", quiz: "92" },
+      "115": { homework: "94", quiz: "90" },
+      "116": { homework: "81", quiz: "77" },
+      "117": { homework: "88", quiz: "85" },
+      "118": { homework: "92", quiz: "89" },
+      "119": { homework: "85", quiz: "83" },
+      "120": { homework: "90", quiz: "87" },
+      "121": { homework: "87", quiz: "91" },
+      "122": { homework: "83", quiz: "85" },
+      "123": { homework: "89", quiz: "88" },
+      "124": { homework: "91", quiz: "90" },
+      "125": { homework: "86", quiz: "84" },
+      "126": { homework: "93", quiz: "92" }
     };
 
     function checkResult() {
       const id = document.getElementById("studentId").value.trim();
       const resultDiv = document.getElementById("result");
 
-      resultDiv.style.color = "green";
-
       if (!id) {
-        resultDiv.textContent = "يرجى إدخال رقم السجل.";
-        resultDiv.style.color = "red";
+        resultDiv.innerHTML = '<div class="result-item error">يرجى إدخال رقم السجل.</div>';
         return;
       }
 
       if (results[id]) {
-        resultDiv.textContent = "النتيجة: " + results[id];
+        const student = results[id];
+        resultDiv.innerHTML = `
+          <div class="result-item homework">
+            📚 الواجب المنزلي: ${student.homework}
+          </div>
+          <div class="result-item quiz">
+            📝 الاختبار القصير: ${student.quiz}
+          </div>
+        `;
       } else {
-        resultDiv.textContent = "عذراً، الرقم غير موجود.";
-        resultDiv.style.color = "red";
+        resultDiv.innerHTML = '<div class="result-item error">عذراً، الرقم غير موجود.</div>';
       }
     }
   </script>
