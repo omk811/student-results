@@ -18,7 +18,40 @@
   <script>
     // قاعدة بيانات الطلاب
     const results = {
-      "101": "301",
+    <!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>نتائج الاختبار</title>
+  <style>
+    body {
+      font-family: Tahoma, Arial;
+      text-align: center;
+      margin-top: 100px;
+      direction: rtl;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>أدخل رقمك لمعرفة نتيجتك</h2>
+  <input type="text" id="studentId" placeholder="رقم السجل">
+  <button onclick="checkResult()">عرض النتيجة</button>
+  <div id="result"></div>
+
+  <script>
+    // قاعدة بيانات مصغرة (ممكن تجيبها من JSON خارجي أو Google Sheet لاحقاً)
+    const results = {
+     "101": "301",
       "102": "301",
       "103": "302",
       "104": "303",
@@ -47,6 +80,23 @@
     };
 
     function checkResult() {
+      const id = document.getElementById("studentId").value;
+      const resultDiv = document.getElementById("result");
+
+      if (results[id]) {
+        resultDiv.textContent = results[id];
+      } else {
+        resultDiv.textContent = "عذراً، الرقم غير موجود.";
+        resultDiv.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
+
+    };
+
+    function checkResult() {
       const id = document.getElementById("studentId").value.trim();
       const resultDiv = document.getElementById("result");
 
@@ -61,3 +111,4 @@
   </script>
 </body>
 </html>
+
