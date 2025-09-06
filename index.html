@@ -277,14 +277,15 @@
           const studentId = row[0].v.toString();
           
           results[studentId] = {
-            oral: row[1].v,
-            homework: row[2].v,
-            listening: row[3].v,
-            exam1: row[4].v,
-            exam2: row[5].v,
-            writing: row[6].v,
-            total: row[7].v,
-            final: row[8].v
+            name: row[1].v, // اسم الطالب
+            oral: row[2].v, // العرض الشفوي
+            homework: row[3].v,
+            listening: row[4].v,
+            exam1: row[5].v,
+            exam2: row[6].v,
+            writing: row[7].v,
+            total: row[8].v,
+            final: row[9].v
           };
         }
         
@@ -387,6 +388,9 @@
               <td colspan="2">${level}</td>
             </tr>
           </table>
+          <div style="margin: 20px 0; font-weight: bold; color: #333; font-size: 20px;">
+            اسم الطالب: ${student.name || 'غير متوفر'}
+          </div>
           <div class="note">
             <strong>ملاحظة:</strong> عبارة "غير متوفر" تعني أن الطالب لم يُقيم إلى الآن في هذه المهارة
           </div>
@@ -422,6 +426,7 @@
         <div style="text-align:center; margin-bottom:20px;">
           <h2>نتائج الطالب</h2>
           <p>تاريخ الطباعة: ${dateStr} - الوقت: ${timeStr}</p>
+          <p style="font-weight: bold; font-size: 20px;">اسم الطالب: ${student.name || 'غير متوفر'}</p>
         </div>
         <table class="print-table">
           <thead>
