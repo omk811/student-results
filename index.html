@@ -96,6 +96,11 @@
       font-weight: bold;
       font-size: 20px;
     }
+    .results-table .reading-level-row {
+      background-color: #fff3e0 !important;
+      font-weight: bold;
+      font-size: 20px;
+    }
 
     .result-item, .error, .loading {
       margin: 10px auto;
@@ -307,22 +312,27 @@
         
         for (let i = 0; i < rows.length; i++) {
           const row = rows[i].c;
-          const studentId = row[0].v.toString();
+          const studentId = row[0] ? row[0].v.toString() : "";
           
-          // جمع الدرجات تلقائيًا
-          const oral = parseFloat(row[2].v) || 0;
-          const homework = parseFloat(row[3].v) || 0;
-          const listening = parseFloat(row[4].v) || 0;
-          const exam1 = parseFloat(row[5].v) || 0;
-          const exam2 = parseFloat(row[6].v) || 0;
-          const writing = parseFloat(row[7].v) || 0;
+          if (!studentId || studentId.trim() === "") continue;
+          
+          // جمع الدرجات تلقائيًا مع التحقق من وجود القيم
+          const oral = row[2] && row[2].v ? parseFloat(row[2].v) || 0 : 0;
+          const homework = row[3] && row[3].v ? parseFloat(row[3].v) || 0 : 0;
+          const listening = row[4] && row[4].v ? parseFloat(row[4].v) || 0 : 0;
+          const exam1 = row[5] && row[5].v ? parseFloat(row[5].v) || 0 : 0;
+          const exam2 = row[6] && row[6].v ? parseFloat(row[6].v) || 0 : 0;
+          const writing = row[7] && row[7].v ? parseFloat(row[7].v) || 0 : 0;
           
           // حساب المجموع التلقائي
           const calculatedTotal = oral + homework + listening + exam1 + exam2 + writing;
-          const final = parseFloat(row[9].v) || 0;
+          const final = row[9] && row[9].v ? parseFloat(row[9].v) || 0 : 0;
+          
+          // الحصول على المستوى القرائي (نصي وليس رقمي)
+          const readingLevel = row[10] && row[10].v ? row[10].v.toString() : "غير محدد";
           
           results[studentId] = {
-            name: row[1].v, // اسم الطالب
+            name: row[1] && row[1].v ? row[1].v : "غير محدد", // اسم الطالب
             oral: oral,
             homework: homework,
             listening: listening,
@@ -330,7 +340,8 @@
             exam2: exam2,
             writing: writing,
             total: calculatedTotal, // استخدام المجموع المحسوب
-            final: final
+            final: final,
+            readingLevel: readingLevel // المستوى القرائي كنص
           };
         }
         
@@ -341,7 +352,7 @@
         
       } catch (error) {
         console.error('خطأ في تحميل البيانات:', error);
-        resultDiv.innerHTML = '<div class="result-item error">❌ حدث خطأ في تحميل البيانات</div>';
+        resultDiv.innerHTML = '<div class="result-item error">❌ حدث خطأ في تحميل البيانات. الرجاء المحاولة مرة أخرى لاحقاً.</div>';
       } finally {
         isLoading = false;
       }
@@ -435,6 +446,10 @@
             <tr class="level-row">
               <td>مستوى الطالب</td>
               <td colspan="2">${level}</td>
+            </tr>
+            <tr class="reading-level-row">
+              <td>المستوى القرائي</td>
+              <td colspan="2">${student.readingLevel}</td>
             </tr>
           </table>
           <div style="margin: 20px 0; font-weight: bold; color: #333; font-size: 20px;">
@@ -534,6 +549,10 @@
             <tr style="background-color:#fce4ec; font-weight:bold; font-size: 20px;">
               <td>مستوى الطالب</td>
               <td colspan="2">${level}</td>
+            </tr>
+            <tr style="background-color:#fff3e0; font-weight:bold; font-size: 20px;">
+              <td>المستوى القرائي</td>
+              <td colspan="2">${student.readingLevel}</td>
             </tr>
           </tbody>
         </table>
