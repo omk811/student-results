@@ -328,8 +328,21 @@
           const calculatedTotal = oral + homework + listening + exam1 + exam2 + writing;
           const final = row[9] && row[9].v ? parseFloat(row[9].v) || 0 : 0;
           
-          // الحصول على المستوى القرائي (نصي وليس رقمي)
-          const readingLevel = row[10] && row[10].v ? row[10].v.toString() : "غير محدد";
+          // الحصول على المستوى القرائي (نصي وليس رقمي) - جرب عدة أعمدة للعثور على العمود الصحيح
+          let readingLevel = "غير محدد";
+          
+          // جرب العمود 10 أولاً (العمود الحادي عشر)
+          if (row[10] && row[10].v) {
+            readingLevel = row[10].v.toString();
+          } 
+          // إذا لم ينجح، جرب العمود 11 (العمود الثاني عشر)
+          else if (row[11] && row[11].v) {
+            readingLevel = row[11].v.toString();
+          }
+          // إذا لم ينجح، جرب العمود 8 (العمود التاسع)
+          else if (row[8] && row[8].v) {
+            readingLevel = row[8].v.toString();
+          }
           
           results[studentId] = {
             name: row[1] && row[1].v ? row[1].v : "غير محدد", // اسم الطالب
