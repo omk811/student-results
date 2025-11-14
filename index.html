@@ -914,103 +914,82 @@
       printBtn.style.display = "inline-flex";
     }
 
- function printTable() {
-  if (!currentStudentData) return;
+    function printTable() {
+      if (!currentStudentData) return;
 
-  const st = currentStudentData;
-  const grandTotal = scoreForCalc(st.total) + scoreForCalc(st.final);
-  const level = getStudentLevel(grandTotal);
+      const st = currentStudentData;
+      const grandTotal = scoreForCalc(st.total) + scoreForCalc(st.final);
+      const level = getStudentLevel(grandTotal);
 
-  const now = new Date();
-  const dateStr = now.toLocaleDateString("ar-SA");
-  const timeStr = now.toLocaleTimeString("ar-SA");
+      const now = new Date();
+      const dateStr = now.toLocaleDateString("ar-SA");
+      const timeStr = now.toLocaleTimeString("ar-SA");
 
-  // المحتوى المراد طباعته
-  const printContent = `
-  <html dir="rtl">
-  <head>
-    <meta charset="UTF-8">
-    <title>طباعة النتائج</title>
-    <style>
-      body {
-        font-family: 'Baloo Bhaijaan 2', sans-serif;
-        padding: 20px;
-        direction: rtl;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 12px;
-        font-size: 15px;
-      }
-      table, th, td {
-        border: 1px solid #000;
-      }
-      th {
-        background: #e5e5e5;
-        padding: 8px;
-      }
-      td {
-        padding: 8px;
-        text-align: center;
-      }
-      h2, p {
-        text-align: center;
-        margin: 0;
-        padding: 0;
-      }
-      .notes {
-        font-size: 13px;
-        margin-top: 10px;
-        line-height: 1.6;
-      }
-    </style>
-  </head>
-  <body>
+      const printSection = document.getElementById("printSection");
+      printSection.innerHTML =
+        '<div style="text-align:center; margin-bottom:8px;">' +
+        "<h2>تقرير نتائج الطالب في اللغة العربية</h2>" +
+        "<p>تاريخ الطباعة: " +
+        dateStr +
+        " - " +
+        timeStr +
+        "</p>" +
+        "<p style='font-size:14px; margin-top:4px;'>يُرجى استخدام هذه الورقة لغاية المتابعة مع ولي الأمر والطالب فقط.</p>" +
+        "</div>" +
+        '<table class="print-table">' +
+        "<thead>" +
+        "<tr><th>نوع التقييم</th><th>الدرجة الكاملة</th><th>درجة الطالب</th></tr>" +
+        "</thead>" +
+        "<tbody>" +
+        "<tr><td>العرض الشفوي</td><td>10</td><td>" +
+        normalizeScore(st.oral) +
+        "</td></tr>" +
+        "<tr><td>الواجب المنزلي</td><td>5</td><td>" +
+        normalizeScore(st.homework) +
+        "</td></tr>" +
+        "<tr><td>التسميع / الاستماع</td><td>5</td><td>" +
+        normalizeScore(st.listening) +
+        "</td></tr>" +
+        "<tr><td>الاختبار القصير الأول</td><td>15</td><td>" +
+        normalizeScore(st.exam1) +
+        "</td></tr>" +
+        "<tr><td>الاختبار القصير الثاني</td><td>15</td><td>" +
+        normalizeScore(st.exam2) +
+        "</td></tr>" +
+        "<tr><td>التعبير الكتابي</td><td>10</td><td>" +
+        normalizeScore(st.writing) +
+        "</td></tr>" +
+        "<tr><td>مجموع أعمال الطالب</td><td>60</td><td>" +
+        normalizeScore(st.total) +
+        "</td></tr>" +
+        "<tr><td>درجة الاختبار النهائي</td><td>40</td><td>" +
+        normalizeScore(st.final) +
+        "</td></tr>" +
+        "<tr><td><strong>المجموع الكلي</strong></td><td>100</td><td><strong>" +
+        grandTotal +
+        "</strong></td></tr>" +
+        "<tr><td><strong>مستوى الطالب</strong></td><td colspan='2'><strong>" +
+        level +
+        "</strong></td></tr>" +
+     "</tbody>" +
+"</table>" +
 
-    <h2>تقرير نتائج الطالب</h2>
-    <p>تاريخ الطباعة: ${dateStr} - ${timeStr}</p>
+"<p style='font-size:13px; margin-top:10px;'>الرمز \"—\" يشير إلى أن الدرجة لم تُسجَّل بعد، بينما (0) تعني أن الطالب حصل على صفر فعلياً.</p>" +
+"<p style='font-size:13px; margin-top:4px;'>الدرجات ليست نهائية وإنما وضعت للاستعلام فقط.</p>" +
 
-    <table>
-      <tr><th>نوع التقييم</th><th>الدرجة الكاملة</th><th>درجة الطالب</th></tr>
-      <tr><td>العرض الشفوي</td><td>10</td><td>${normalizeScore(st.oral)}</td></tr>
-      <tr><td>الواجب المنزلي</td><td>5</td><td>${normalizeScore(st.homework)}</td></tr>
-      <tr><td>التسميع / الاستماع</td><td>5</td><td>${normalizeScore(st.listening)}</td></tr>
-      <tr><td>الاختبار القصير الأول</td><td>15</td><td>${normalizeScore(st.exam1)}</td></tr>
-      <tr><td>الاختبار القصير الثاني</td><td>15</td><td>${normalizeScore(st.exam2)}</td></tr>
-      <tr><td>التعبير الكتابي</td><td>10</td><td>${normalizeScore(st.writing)}</td></tr>
-      <tr><td>مجموع أعمال الطالب</td><td>60</td><td>${normalizeScore(st.total)}</td></tr>
-      <tr><td>الاختبار النهائي</td><td>40</td><td>${normalizeScore(st.final)}</td></tr>
-      <tr><td><b>المجموع الكلي</b></td><td>100</td><td><b>${grandTotal}</b></td></tr>
-      <tr><td><b>مستوى الطالب</b></td><td colspan="2"><b>${level}</b></td></tr>
-    </table>
+"<div style='margin-top:40px; display:flex; justify-content:space-between; font-size:14px;'>" +
+"<div>توقيع ولي الأمر: _____________________</div>" +
+"<div>توقيع المعلم: _____________________</div>" +
+"</div>";
 
-    <div class="notes">
-      <p>الرمز "—" يشير إلى أن الدرجة لم تُسجَّل بعد، بينما (0) تعني أن الطالب حصل على صفر فعلياً.</p>
-      <p>الدرجات ليست نهائية وإنما وضعت للاستعلام فقط.</p>
-    </div>
+      printSection.style.display = "block";
+      window.print();
+      printSection.style.display = "none";
+    }
 
-    <br><br>
-    <div style="display:flex; justify-content:space-between;">
-      <p>توقيع ولي الأمر: ___________________</p>
-      <p>توقيع المعلم: ___________________</p>
-    </div>
-  </body>
-  </html>`;
-  // فتح نافذة جديدة للطباعة (الضمان الوحيد للهاتف)
-  const printWin = window.open("", "_blank");
-  printWin.document.write(printContent);
-  printWin.document.close();
-
-  // إعطاء الهاتف/المتصفح وقتًا لتحميل الصفحة ثم الطباعة
-  setTimeout(() => {
-    printWin.print();
-    printWin.close();
-  }, 500);
-}
+    window.addEventListener("load", () => {
       loadData();
     });
   </script>
 </body>
 </html>
-
