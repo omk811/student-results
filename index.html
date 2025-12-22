@@ -2,994 +2,367 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>نظام نتائج الطلاب - الأستاذ خليل البلوشي</title>
+  <title>بوابة نتائج الطلاب | الأستاذ خليل البلوشي</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- خط و أيقونات -->
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;600;800&family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
     :root {
-      --bg: #020617;              /* خلفية عامة */
-      --bg-alt: #020617;
-      --card: #020617;            /* بطاقات داكنة */
-      --card-soft: #020617;
-      --border-soft: #1e293b;
-      --primary: #22c55e;         /* أخضر زمردي */
-      --primary-soft: rgba(34, 197, 94, 0.18);
-      --accent: #38bdf8;          /* أزرق سماوي مساعد */
-      --danger: #f97373;
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --radius-lg: 22px;
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --secondary: #3b82f6;
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+      --glass: rgba(30, 41, 59, 0.7);
       --radius: 16px;
-      --shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
-      --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
-      --transition: 0.25s ease;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: "Baloo Bhaijaan 2", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(34, 197, 94, 0.12), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.12), transparent 55%),
-        var(--bg);
+      font-family: 'Baloo Bhaijaan 2', 'Tajawal', sans-serif;
+      background: radial-gradient(circle at top right, #1e293b, #0f172a);
       color: var(--text-main);
       min-height: 100vh;
-      padding: 24px 16px 40px;
+      line-height: 1.6;
+      padding-bottom: 50px;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
+    /* Header Design */
     header {
       text-align: center;
-      margin-bottom: 28px;
+      padding: 40px 0;
+      animation: fadeInDown 0.8s ease;
     }
 
-    .logo {
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 12px;
-      border-radius: 999px;
-      background:
-        conic-gradient(from 140deg, rgba(34, 197, 94, 0.15), rgba(56, 189, 248, 0.2), rgba(34, 197, 94, 0.15));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
+    .logo-container {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 15px;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+      transform: rotate(-5deg);
     }
 
-    .logo::before {
-      content: "";
-      position: absolute;
-      inset: 3px;
-      border-radius: inherit;
-      background: radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.16), transparent 55%), #020617;
-    }
+    .logo-container i { font-size: 35px; color: white; transform: rotate(5deg); }
 
-    .logo-icon {
-      position: relative;
-      z-index: 1;
-      font-size: 34px;
-      color: var(--primary);
-    }
+    header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; }
+    header p { color: var(--text-muted); font-size: 1.1rem; }
 
-    header h1 {
-      font-size: 30px;
-      margin-bottom: 4px;
-      background: linear-gradient(130deg, #22c55e, #38bdf8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    header .subtitle {
-      color: var(--text-muted);
-      font-size: 17px;
-    }
-
-    .layout {
+    /* Main Layout */
+    .main-grid {
       display: grid;
-      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.7fr);
-      gap: 22px;
-      align-items: flex-start;
+      grid-template-columns: 1fr 350px;
+      gap: 25px;
     }
 
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
+    @media (max-width: 992px) { .main-grid { grid-template-columns: 1fr; } }
 
+    /* Cards Styles */
     .card {
-      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.12), transparent 60%), #020617;
-      border-radius: var(--radius-lg);
-      padding: 24px 22px 22px;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 25px;
       box-shadow: var(--shadow);
-      border: 1px solid rgba(148, 163, 184, 0.12);
-      position: relative;
-      overflow: hidden;
     }
 
-    .card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 55%);
-      opacity: 0.6;
-    }
+    .search-box h3 { margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .search-box h3 i { color: var(--primary); }
 
-    .card-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-
-    .card-title {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .card-title i {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at 20% 0%, rgba(34, 197, 94, 0.24), transparent 55%);
-      color: var(--primary);
-    }
-
-    .card-subtitle {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .field-label {
-      font-size: 15px;
-      margin-bottom: 6px;
-      color: var(--text-muted);
-    }
-
-    .input-wrapper {
-      position: relative;
-      margin-bottom: 14px;
-    }
-
-    input[type="text"] {
+    .input-group { position: relative; margin-bottom: 20px; }
+    .input-group input {
       width: 100%;
-      padding: 14px 44px 14px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
-      color: var(--text-main);
-      font-size: 17px;
+      padding: 15px 50px 15px 15px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      color: white;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--primary);
       outline: none;
-      transition: border var(--transition), box-shadow var(--transition), background var(--transition), transform var(--transition);
+      background: rgba(15, 23, 42, 0.9);
     }
 
-    input[type="text"]::placeholder {
-      color: #64748b;
-    }
-
-    input[type="text"]:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.5), 0 0 0 10px rgba(34, 197, 94, 0.08);
-      background: radial-gradient(circle at top left, rgba(22, 163, 74, 0.22), rgba(15, 23, 42, 0.96));
-      transform: translateY(-1px);
-    }
-
-    .input-icon {
-      position: absolute;
-      right: 14px;
-      top: 50%;
+    .input-group i {
+      position: absolute; right: 18px; top: 50%;
       transform: translateY(-50%);
-      color: #64748b;
-      font-size: 17px;
-      pointer-events: none;
-    }
-
-    .btn-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    button {
-      border: none;
-      border-radius: 999px;
-      padding: 11px 16px;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), opacity 0.18s;
-      white-space: nowrap;
-    }
-
-    button i {
-      font-size: 15px;
-    }
-
-    .btn-primary {
-      background: radial-gradient(circle at top left, #22c55e, #16a34a);
-      color: #ecfdf5;
-      box-shadow: 0 10px 25px rgba(22, 163, 74, 0.45);
-      flex: 1;
-      min-width: 160px;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 32px rgba(22, 163, 74, 0.6);
-    }
-
-    .btn-secondary {
-      background: rgba(15, 23, 42, 0.9);
-      color: var(--text-main);
-      border: 1px solid var(--border-soft);
-      flex: 1;
-      min-width: 160px;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--primary);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
-    }
-
-    .btn-print {
-      background: radial-gradient(circle at top left, #22c55e, #15803d);
-      color: #ecfdf5;
-      min-width: 120px;
-    }
-
-    .btn-print:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(21, 128, 61, 0.7);
-    }
-
-    .btn:disabled,
-    button:disabled {
-      opacity: 0.6;
-      cursor: default;
-      box-shadow: none;
-      transform: none;
-    }
-
-    .quote-card {
-      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.2), transparent 60%), #020617;
-      border-radius: var(--radius-lg);
-      padding: 22px 22px 18px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .quote-card::before {
-      content: "";
-      position: absolute;
-      width: 160px;
-      height: 160px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(34, 197, 94, 0.18), transparent 70%);
-      right: -40px;
-      top: -40px;
-      opacity: 0.8;
-    }
-
-    .quote-card-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .quote-teacher {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--primary);
-    }
-
-    .quote-text {
-      font-size: 15px;
-      color: var(--text-main);
-    }
-
-    .quote-text span {
-      color: var(--accent);
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
       color: var(--text-muted);
-      font-size: 13px;
-      margin-top: 10px;
     }
 
-    .chip i {
-      font-size: 12px;
-      color: var(--primary);
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+      transition: 0.3s;
+      font-family: inherit;
     }
 
-    #status {
-      margin-top: 16px;
-      font-size: 14px;
+    .btn-main { background: var(--primary); color: white; flex: 2; justify-content: center; }
+    .btn-main:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: white; flex: 1; justify-content: center; }
+    .btn-outline:hover { background: rgba(255,255,255,0.05); }
+
+    /* Quote Card */
+    .quote-sidebar {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      display: flex; flex-direction: column; justify-content: center;
     }
 
-    .status-msg {
-      border-radius: 999px;
-      padding: 8px 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid transparent;
-    }
+    .quote-icon { color: var(--primary); font-size: 2rem; margin-bottom: 15px; opacity: 0.5; }
+    .quote-text { font-style: italic; color: var(--text-main); font-size: 1rem; line-height: 1.8; }
+    .teacher-name { margin-top: 15px; color: var(--primary); font-weight: 700; font-size: 0.9rem; }
 
-    .status-ok {
-      background: rgba(22, 163, 74, 0.12);
-      border-color: rgba(22, 163, 74, 0.5);
-      color: #bbf7d0;
-    }
-
-    .status-error {
-      background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(248, 113, 113, 0.7);
-      color: #fecaca;
-    }
-
-    .status-loading {
-      background: rgba(56, 189, 248, 0.1);
-      border-color: rgba(56, 189, 248, 0.7);
-      color: #e0f2fe;
-    }
-
-    #result {
-      margin-top: 24px;
-    }
-
-    .results-container {
-      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.22), transparent 55%), rgba(15, 23, 42, 0.98);
-      border-radius: var(--radius-lg);
-      padding: 20px 20px 18px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      box-shadow: var(--shadow);
-    }
-
-    .student-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: 999px;
-      background: linear-gradient(120deg, rgba(34, 197, 94, 0.25), rgba(15, 23, 42, 0.95));
-      margin-bottom: 18px;
-    }
-
-    .student-name {
-      display: none !important; /* إخفاء الاسم تماماً */
-    }
-
-    .student-total-label {
-      font-size: 14px;
-      color: #bbf7d0;
-      text-align: right;
-    }
-
-    .student-total-value {
-      font-size: 26px;
-      font-weight: 700;
-      color: #f9fafb;
-    }
-
-    .stats-grid {
+    /* Results Section */
+    #result { margin-top: 30px; animation: fadeInUp 0.6s ease; }
+    
+    .stats-row {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    @media (max-width: 900px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 600px) {
-      .stats-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
     }
 
     .stat-card {
-      background: rgba(15, 23, 42, 0.98);
-      border-radius: 18px;
-      padding: 10px 12px 12px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-    }
-
-    .stat-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .stat-value {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .stat-sub {
-      font-size: 13px;
-      color: #9ca3af;
-    }
-
-    .results-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 6px;
-      font-size: 15px;
-    }
-
-    .results-table th,
-    .results-table td {
-      padding: 10px 6px;
-      border-bottom: 1px solid rgba(30, 41, 59, 0.9);
+      background: rgba(255,255,255,0.03);
+      padding: 20px;
+      border-radius: 15px;
       text-align: center;
+      border: 1px solid var(--border);
     }
 
-    .results-table th {
-      font-size: 14px;
-      color: #cbd5f5;
-      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 1));
-    }
+    .stat-card .val { font-size: 1.8rem; font-weight: 800; color: var(--primary); display: block; }
+    .stat-card .lbl { font-size: 0.85rem; color: var(--text-muted); }
 
-    .results-table tr:nth-child(even) td {
-      background: rgba(15, 23, 42, 0.82);
-    }
+    .table-container { overflow-x: auto; margin-top: 20px; border-radius: 12px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; background: rgba(15, 23, 42, 0.4); }
+    th { background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight: 600; text-align: right; }
+    th, td { padding: 15px; border-bottom: 1px solid var(--border); text-align: center; }
+    tr:last-child td { border-bottom: none; }
+    .highlight-row { background: rgba(16, 185, 129, 0.1) !important; font-weight: bold; }
+    .total-row { background: var(--primary) !important; color: white !important; }
 
-    .results-table tr:nth-child(odd) td {
-      background: rgba(15, 23, 42, 0.95);
+    /* Status Messages */
+    .status-alert {
+      padding: 12px 15px; border-radius: 10px; margin-top: 15px;
+      display: none; align-items: center; gap: 10px; font-size: 0.9rem;
     }
+    .status-alert.error { display: flex; background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .status-alert.success { display: flex; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
 
-    .max-score td {
-      background: rgba(34, 197, 94, 0.12) !important;
-      font-weight: 600;
-      color: #bbf7d0;
-    }
-
-    .final-row td {
-      background: rgba(56, 189, 248, 0.12) !important;
-      font-weight: 600;
-      color: #e0f2fe;
-    }
-
-    .grand-total-row td {
-      background: rgba(34, 197, 94, 0.18) !important;
-      font-weight: 700;
-      color: #f9fafb;
-      font-size: 16px;
-    }
-
-    .level-row td {
-      background: rgba(59, 130, 246, 0.16) !important;
-      font-weight: 600;
-      color: #bfdbfe;
-    }
-
-    .note {
-      margin-top: 10px;
-      font-size: 13px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .note i {
-      margin-top: 2px;
-      color: var(--primary);
-      font-size: 13px;
-    }
-
-    footer {
-      margin-top: 26px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .print-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      font-family: "Baloo Bhaijaan 2", sans-serif;
-      font-size: 15px;
-      direction: rtl;
-    }
-
-    .print-table th,
-    .print-table td {
-      border: 1px solid #0f172a;
-      padding: 8px 6px;
-      text-align: center;
-    }
-
-    .print-table th {
-      background: #020617;
-      color: #e5e7eb;
-    }
-
+    /* Print */
     @media print {
-      body * {
-        visibility: hidden;
-      }
-      #printSection,
-      #printSection * {
-        visibility: visible;
-      }
-      #printSection {
-        position: absolute;
-        inset: 0;
-        margin: 0;
-        padding: 10px 16px;
-        background: #ffffff !important;
-        color: #000000 !important;
-      }
-      header,
-      .layout,
-      #result,
-      #status,
-      footer {
-        display: none !important;
-      }
-      button,
-      input {
-        display: none !important;
-      }
+      body { background: white; color: black; }
+      .main-grid, header, .btn, .status-alert { display: none !important; }
+      #printSection { display: block !important; }
     }
+
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+    footer { text-align: center; margin-top: 40px; color: var(--text-muted); font-size: 0.85rem; }
   </style>
 </head>
 
 <body>
   <div class="container">
     <header>
-      <div class="logo">
-        <div class="logo-icon">
-          <i class="fas fa-graduation-cap"></i>
-        </div>
+      <div class="logo-container">
+        <i class="fas fa-book-reader"></i>
       </div>
-      <h1>نظام نتائج الطلاب</h1>
-      <p class="subtitle">متابعة دقيقة لدرجات الطالب في مادة اللغة العربية</p>
+      <h1>بوابة نتائج الطلاب</h1>
+      <p>مادة اللغة العربية | مدرسة التميز</p>
     </header>
 
-    <div class="layout">
-      <!-- كارت الاستعلام -->
-      <section class="card">
-        <div class="card-inner">
-          <div class="card-header">
-            <div>
-              <div class="card-title">
-                <i class="fas fa-magnifying-glass-chart"></i>
-                <span>استعلام النتائج</span>
-              </div>
-              <div class="card-subtitle">أدخل رقم الطالب كما هو مسجل في النظام</div>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="field-label">رقم الطالب</div>
-            <div class="input-wrapper">
-              <input
-                type="text"
-                id="studentId"
-                autocomplete="off"
-                placeholder="مثال: 1 أو 15 أو 203"
-                onkeypress="if(event.key==='Enter'){ checkResult(); }"
-              />
-              <span class="input-icon">
-                <i class="fas fa-hashtag"></i>
-              </span>
-            </div>
-          </div>
-
-          <div class="btn-group">
-            <button class="btn-primary" id="btnShow" onclick="checkResult()">
-              <i class="fas fa-chart-line"></i>
-              <span>عرض النتائج</span>
-            </button>
-            <button class="btn-secondary" id="btnLoad" onclick="loadData()">
-              <i class="fas fa-rotate"></i>
-              <span>تحديث البيانات</span>
-            </button>
-            <button class="btn-print" id="printBtn" style="display: none;" onclick="printTable()">
-              <i class="fas fa-print"></i>
-              <span>طباعة</span>
-            </button>
-          </div>
-
-          <div id="status"></div>
+    <div class="main-grid">
+      <section class="card search-box">
+        <h3><i class="fas fa-search"></i> الاستعلام عن الدرجات</h3>
+        <div class="input-group">
+          <i class="fas fa-user-graduate"></i>
+          <input type="text" id="studentId" placeholder="أدخل الرقم التعريفي للطالب..." onkeypress="if(event.key==='Enter'){ checkResult(); }">
         </div>
+        
+        <div class="actions">
+          <button class="btn btn-main" id="btnShow" onclick="checkResult()">
+            <i class="fas fa-eye"></i> عرض النتيجة
+          </button>
+          <button class="btn btn-outline" onclick="loadData()" title="تحديث البيانات">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <button class="btn btn-outline" id="printBtn" style="display: none;" onclick="printTable()">
+            <i class="fas fa-print"></i> طباعة
+          </button>
+        </div>
+
+        <div id="status" class="status-alert"></div>
       </section>
 
-      <!-- كارت العبارة التحفيزية -->
-      <aside class="quote-card" id="quoteCard">
-        <div class="quote-card-inner">
-          <div class="quote-teacher">
-            <i class="fas fa-user-tie"></i>
-            <span>الأستاذ خليل البلوشي</span>
-          </div>
-          <div class="quote-text">
-            "كل درجة تُضاف إلى رصيدك اليوم، هي <span>خطوة ثابتة</span> نحو مستقبلٍ أوسع فرصةً وأقوى أثرًا.
-            تعلَّم، جرِّب، أخطئ، ثم صحِّح؛ فهكذا تُبنى شخصية متوازنة واثقة من نفسها."
-          </div>
-          <div class="chip">
-            <i class="fas fa-lightbulb"></i>
-            <span>نقيس الدرجات، لكننا نراهن على الجهد والمثابرة.</span>
-          </div>
-        </div>
+      <aside class="card quote-sidebar">
+        <i class="fas fa-quote-right quote-icon"></i>
+        <p class="quote-text">"كل درجة تُضاف إلى رصيدك اليوم، هي خطوة ثابتة نحو مستقبلٍ أوسع فرصةً وأقوى أثرًا."</p>
+        <p class="teacher-name">— الأستاذ خليل البلوشي</p>
       </aside>
     </div>
 
     <div id="result"></div>
 
-    <!-- قسم الطباعة -->
-    <div id="printSection" style="display: none;"></div>
-
-    <footer>جميع الحقوق محفوظة © 2025 – نظام نتائج الطلاب – إعداد: الأستاذ خليل البلوشي</footer>
+    <footer>
+      &copy; 2025 جميع الحقوق محفوظة | الأستاذ خليل البلوشي
+    </footer>
   </div>
+
+  <div id="printSection" style="display: none;"></div>
 
   <script>
     let results = {};
     let currentStudentData = null;
     let loading = false;
 
-    const GOOGLE_SHEET_URL =
-      "https://docs.google.com/spreadsheets/d/1bY6sJ2CaLy7olcCpmX6V7HMuoGZIC6G9VcPWpk0eFGw/gviz/tq?tqx=out:json";
+    const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1bY6sJ2CaLy7olcCpmX6V7HMuoGZIC6G9VcPWpk0eFGw/gviz/tq?tqx=out:json";
 
-    function normalizeScore(value) {
-      if (value === -1 || value === "-1") return "—";
-      return value ?? 0;
-    }
-
-    function scoreForCalc(value) {
-      if (value === -1 || value === "-1") return 0;
-      return parseFloat(value) || 0;
-    }
-
-    function setStatus(message, type) {
-      const status = document.getElementById("status");
-      if (!message) {
-        status.innerHTML = "";
-        return;
-      }
-      let cls = "status-msg ";
-      if (type === "ok") cls += "status-ok";
-      else if (type === "error") cls += "status-error";
-      else cls += "status-loading";
-
-      const icon =
-        type === "ok"
-          ? '<i class="fas fa-circle-check"></i>'
-          : type === "error"
-          ? '<i class="fas fa-triangle-exclamation"></i>'
-          : '<i class="fas fa-spinner fa-spin"></i>';
-
-      status.innerHTML = '<div class="' + cls + '">' + icon + "<span>" + message + "</span></div>";
+    function setStatus(msg, type) {
+      const el = document.getElementById("status");
+      if (!msg) { el.style.display = "none"; return; }
+      el.style.display = "flex";
+      el.className = "status-alert " + (type === 'error' ? 'error' : 'success');
+      el.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> <span>${msg}</span>`;
     }
 
     async function loadData() {
       if (loading) return;
       loading = true;
-      setStatus("جاري تحميل بيانات الطلاب من النظام...", "loading");
-      document.getElementById("btnLoad").disabled = true;
-
+      setStatus("جاري مزامنة البيانات من الخادم...", "info");
+      
       try {
         const response = await fetch(GOOGLE_SHEET_URL);
         const text = await response.text();
-
-        const cleaned = text
-          .replace("/*O_o*/", "")
-          .replace("google.visualization.Query.setResponse(", "")
-          .replace(");", "");
-
+        const cleaned = text.replace("/*O_o*/", "").replace("google.visualization.Query.setResponse(", "").replace(");", "");
         const data = JSON.parse(cleaned);
         const rows = data.table.rows || [];
 
         results = {};
-
-        rows.forEach((row) => {
+        rows.forEach(row => {
           const c = row.c;
           if (!c || !c[0] || !c[0].v) return;
-
-          const studentId = c[0].v.toString().trim();
-          if (!studentId) return;
-
-          const name = c[1]?.v ?? "—";
-          const oral = c[2]?.v ?? 0;
-          const homework = c[3]?.v ?? 0;
-          const listening = c[4]?.v ?? 0;
-          const exam1 = c[5]?.v ?? 0;
-          const exam2 = c[6]?.v ?? 0;
-          const writing = c[7]?.v ?? 0;
-          const final = c[9]?.v ?? 0;
-
-          const total =
-            scoreForCalc(oral) +
-            scoreForCalc(homework) +
-            scoreForCalc(listening) +
-            scoreForCalc(exam1) +
-            scoreForCalc(exam2) +
-            scoreForCalc(writing);
-
-          results[studentId] = {
-            name,
-            oral,
-            homework,
-            listening,
-            exam1,
-            exam2,
-            writing,
-            total,
-            final,
+          const id = c[0].v.toString().trim();
+          results[id] = {
+            name: c[1]?.v ?? "—", oral: c[2]?.v ?? 0, homework: c[3]?.v ?? 0,
+            listening: c[4]?.v ?? 0, exam1: c[5]?.v ?? 0, exam2: c[6]?.v ?? 0,
+            writing: c[7]?.v ?? 0, final: c[9]?.v ?? 0,
+            total: (parseFloat(c[2]?.v)||0)+(parseFloat(c[3]?.v)||0)+(parseFloat(c[4]?.v)||0)+(parseFloat(c[5]?.v)||0)+(parseFloat(c[6]?.v)||0)+(parseFloat(c[7]?.v)||0)
           };
         });
-
-        setStatus("تم تحديث بيانات النتائج بنجاح.", "ok");
+        setStatus("تم تحديث قاعدة البيانات بنجاح", "success");
       } catch (err) {
-        console.error(err);
-        setStatus("حدث خطأ أثناء تحميل البيانات. حاول مرة أخرى لاحقاً.", "error");
-      } finally {
-        loading = false;
-        document.getElementById("btnLoad").disabled = false;
-      }
+        setStatus("فشل في تحديث البيانات. تحقق من الاتصال", "error");
+      } finally { loading = false; }
     }
 
-    function getStudentLevel(score) {
-      if (score >= 90) return "ممتاز (A)";
-      if (score >= 80) return "جيد جداً (B)";
-      if (score >= 65) return "جيد (C)";
-      if (score >= 50) return "مقبول (D)";
-      return "يحتاج إلى مساعدة (F)";
+    function getLevel(s) {
+      if (s >= 90) return "ممتاز (A)";
+      if (s >= 80) return "جيد جداً (B)";
+      if (s >= 65) return "جيد (C)";
+      if (s >= 50) return "مقبول (D)";
+      return "يحتاج تحسين (F)";
     }
+
+    function normalize(v) { return (v === -1 || v === "-1") ? "—" : (v ?? 0); }
 
     function checkResult() {
-      const idInput = document.getElementById("studentId");
-      const id = idInput.value.trim();
-      const resultDiv = document.getElementById("result");
+      const id = document.getElementById("studentId").value.trim();
+      const resDiv = document.getElementById("result");
       const printBtn = document.getElementById("printBtn");
-      const quoteCard = document.getElementById("quoteCard");
 
-      if (!id) {
-        resultDiv.innerHTML = "";
-        setStatus("يرجى إدخال رقم الطالب أولاً.", "error");
-        printBtn.style.display = "none";
-        return;
-      }
-
-      if (!results[id]) {
-        resultDiv.innerHTML = "";
-        setStatus("عذراً، رقم الطالب غير موجود في قاعدة البيانات.", "error");
+      if (!id || !results[id]) {
+        setStatus("رقم الطالب غير صحيح أو غير مسجل", "error");
+        resDiv.innerHTML = "";
         printBtn.style.display = "none";
         return;
       }
 
       setStatus("", "");
-      if (quoteCard) quoteCard.style.opacity = 0.35;
-
       const st = results[id];
       currentStudentData = st;
+      const grandTotal = st.total + (parseFloat(st.final) || 0);
 
-      const grandTotal = scoreForCalc(st.total) + scoreForCalc(st.final);
-      const level = getStudentLevel(grandTotal);
-
-      const html =
-        '<div class="results-container">' +
-        '<div class="student-info">' +
-        '<div class="student-name"></div>' +
-        '<div style="text-align:right;">' +
-        '<div class="student-total-label">المجموع الكلي</div>' +
-        '<div class="student-total-value">' +
-        grandTotal +
-        "/100</div>" +
-        "</div>" +
-        "</div>" +
-        '<div class="stats-grid">' +
-        '<div class="stat-card">' +
-        '<div class="stat-label">مجموع أعمال الطالب</div>' +
-        '<div class="stat-value">' +
-        normalizeScore(st.total) +
-        "/60</div>" +
-        '<div class="stat-sub">العرض الشفوي، الواجب، التسميع، الاختباران القصيران، التعبير</div>' +
-        "</div>" +
-        '<div class="stat-card">' +
-        '<div class="stat-label">درجة الاختبار النهائي</div>' +
-        '<div class="stat-value">' +
-        normalizeScore(st.final) +
-        "/40</div>" +
-        '<div class="stat-sub">امتحان نهاية الفصل</div>' +
-        "</div>" +
-        '<div class="stat-card">' +
-        '<div class="stat-label">المجموع الكلي</div>' +
-        '<div class="stat-value">' +
-        grandTotal +
-        "/100</div>" +
-        '<div class="stat-sub">أعمال + نهائي</div>' +
-        "</div>" +
-        '<div class="stat-card">' +
-        '<div class="stat-label">مستوى الطالب</div>' +
-        '<div class="stat-value">' +
-        level +
-        "</div>" +
-        '<div class="stat-sub">للاطلاع العام لولي الأمر والطالب</div>' +
-        "</div>" +
-        "</div>" +
-        '<table class="results-table">' +
-        "<thead>" +
-        "<tr>" +
-        "<th>نوع التقييم</th>" +
-        "<th>الدرجة الكاملة</th>" +
-        "<th>درجة الطالب</th>" +
-        "</tr>" +
-        "</thead>" +
-        "<tbody>" +
-        "<tr><td>العرض الشفوي</td><td>10</td><td>" +
-        normalizeScore(st.oral) +
-        "</td></tr>" +
-        "<tr><td>الواجب المنزلي</td><td>5</td><td>" +
-        normalizeScore(st.homework) +
-        "</td></tr>" +
-        "<tr><td>التسميع / الاستماع</td><td>5</td><td>" +
-        normalizeScore(st.listening) +
-        "</td></tr>" +
-        "<tr><td>الاختبار القصير الأول</td><td>15</td><td>" +
-        normalizeScore(st.exam1) +
-        "</td></tr>" +
-        "<tr><td>الاختبار القصير الثاني</td><td>15</td><td>" +
-        normalizeScore(st.exam2) +
-        "</td></tr>" +
-        "<tr><td>التعبير الكتابي</td><td>10</td><td>" +
-        normalizeScore(st.writing) +
-        "</td></tr>" +
-        '<tr class="max-score"><td>مجموع أعمال الطالب</td><td>60</td><td>' +
-        normalizeScore(st.total) +
-        "</td></tr>" +
-        '<tr class="final-row"><td>درجة الاختبار النهائي</td><td>40</td><td>' +
-        normalizeScore(st.final) +
-        "</td></tr>" +
-        '<tr class="grand-total-row"><td>المجموع الكلي</td><td>100</td><td>' +
-        grandTotal +
-        "</td></tr>" +
-        '<tr class="level-row"><td>مستوى الطالب</td><td colspan="2">' +
-        level +
-        "</td></tr>" +
-        "</tbody>" +
-        "</table>" +
-        '<div class="note">' +
-        '<i class="fas fa-circle-info"></i>' +
-        '<span>ظهور الرمز "<strong>—</strong>" يعني أن التقييم لم يُسجَّل بعد في النظام، بينما "0" تعني أن الطالب حصل على صفر فعلياً في هذا الجانب.</span>' +
-        "</div>" +
-        "</div>";
-
-      resultDiv.innerHTML = html;
-      printBtn.style.display = "inline-flex";
+      resDiv.innerHTML = `
+        <div class="stats-row">
+          <div class="stat-card"><span class="lbl">أعمال السنة</span><span class="val">${normalize(st.total)}/60</span></div>
+          <div class="stat-card"><span class="lbl">الاختبار النهائي</span><span class="val">${normalize(st.final)}/40</span></div>
+          <div class="stat-card"><span class="lbl">المجموع الكلي</span><span class="val">${grandTotal}/100</span></div>
+          <div class="stat-card"><span class="lbl">التقدير العام</span><span class="val" style="font-size:1.2rem">${getLevel(grandTotal)}</span></div>
+        </div>
+        <div class="card">
+          <div class="table-container">
+            <table>
+              <thead><tr><th>التقييم</th><th>الدرجة الكبرى</th><th>درجة الطالب</th></tr></thead>
+              <tbody>
+                <tr><td>العرض الشفوي</td><td>10</td><td>${normalize(st.oral)}</td></tr>
+                <tr><td>الواجب المنزلي</td><td>5</td><td>${normalize(st.homework)}</td></tr>
+                <tr><td>التسميع والاستماع</td><td>5</td><td>${normalize(st.listening)}</td></tr>
+                <tr><td>الاختبار القصير 1</td><td>15</td><td>${normalize(st.exam1)}</td></tr>
+                <tr><td>الاختبار القصير 2</td><td>15</td><td>${normalize(st.exam2)}</td></tr>
+                <tr><td>التعبير الكتابي</td><td>10</td><td>${normalize(st.writing)}</td></tr>
+                <tr class="highlight-row"><td>مجموع الأعمال</td><td>60</td><td>${normalize(st.total)}</td></tr>
+                <tr class="highlight-row"><td>الاختبار النهائي</td><td>40</td><td>${normalize(st.final)}</td></tr>
+                <tr class="total-row"><td>المجموع النهائي</td><td>100</td><td>${grandTotal}</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      printBtn.style.display = "flex";
     }
 
     function printTable() {
       if (!currentStudentData) return;
-
       const st = currentStudentData;
-      const grandTotal = scoreForCalc(st.total) + scoreForCalc(st.final);
-      const level = getStudentLevel(grandTotal);
-
-      const now = new Date();
-      const dateStr = now.toLocaleDateString("ar-SA");
-      const timeStr = now.toLocaleTimeString("ar-SA");
-
-      const printSection = document.getElementById("printSection");
-      printSection.innerHTML =
-        '<div style="text-align:center; margin-bottom:8px;">' +
-        "<h2>تقرير نتائج الطالب في اللغة العربية</h2>" +
-        "<p>تاريخ الطباعة: " +
-        dateStr +
-        " - " +
-        timeStr +
-        "</p>" +
-        "<p style='font-size:14px; margin-top:4px;'>يُرجى استخدام هذه الورقة لغاية المتابعة مع ولي الأمر والطالب فقط.</p>" +
-        "</div>" +
-        '<table class="print-table">' +
-        "<thead>" +
-        "<tr><th>نوع التقييم</th><th>الدرجة الكاملة</th><th>درجة الطالب</th></tr>" +
-        "</thead>" +
-        "<tbody>" +
-        "<tr><td>العرض الشفوي</td><td>10</td><td>" +
-        normalizeScore(st.oral) +
-        "</td></tr>" +
-        "<tr><td>الواجب المنزلي</td><td>5</td><td>" +
-        normalizeScore(st.homework) +
-        "</td></tr>" +
-        "<tr><td>التسميع / الاستماع</td><td>5</td><td>" +
-        normalizeScore(st.listening) +
-        "</td></tr>" +
-        "<tr><td>الاختبار القصير الأول</td><td>15</td><td>" +
-        normalizeScore(st.exam1) +
-        "</td></tr>" +
-        "<tr><td>الاختبار القصير الثاني</td><td>15</td><td>" +
-        normalizeScore(st.exam2) +
-        "</td></tr>" +
-        "<tr><td>التعبير الكتابي</td><td>10</td><td>" +
-        normalizeScore(st.writing) +
-        "</td></tr>" +
-        "<tr><td>مجموع أعمال الطالب</td><td>60</td><td>" +
-        normalizeScore(st.total) +
-        "</td></tr>" +
-        "<tr><td>درجة الاختبار النهائي</td><td>40</td><td>" +
-        normalizeScore(st.final) +
-        "</td></tr>" +
-        "<tr><td><strong>المجموع الكلي</strong></td><td>100</td><td><strong>" +
-        grandTotal +
-        "</strong></td></tr>" +
-        "<tr><td><strong>مستوى الطالب</strong></td><td colspan='2'><strong>" +
-        level +
-        "</strong></td></tr>" +
-     "</tbody>" +
-"</table>" +
-
-"<p style='font-size:13px; margin-top:10px;'>الرمز \"—\" يشير إلى أن الدرجة لم تُسجَّل بعد، بينما (0) تعني أن الطالب حصل على صفر فعلياً.</p>" +
-"<p style='font-size:13px; margin-top:4px;'>الدرجات ليست نهائية وإنما وضعت للاستعلام فقط.</p>" +
-
-"<div style='margin-top:40px; display:flex; justify-content:space-between; font-size:14px;'>" +
-"<div>توقيع ولي الأمر: _____________________</div>" +
-"<div>توقيع المعلم: _____________________</div>" +
-"</div>";
-
-      printSection.style.display = "block";
+      const gt = st.total + (parseFloat(st.final) || 0);
+      const ps = document.getElementById("printSection");
+      
+      ps.innerHTML = `
+        <div style="text-align:center; direction:rtl; font-family:sans-serif; padding:30px;">
+          <h2 style="color:#10b981">تقرير أداء الطالب في مادة اللغة العربية</h2>
+          <hr>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; margin: 20px 0; text-align:right;">
+             <p>رقم الطالب: ${document.getElementById("studentId").value}</p>
+             <p>التاريخ: ${new Date().toLocaleDateString('ar-EG')}</p>
+          </div>
+          <table border="1" style="width:100%; border-collapse:collapse; text-align:center;">
+             <tr style="background:#f3f4f6"><th>نوع التقييم</th><th>الدرجة</th></tr>
+             <tr><td>أعمال السنة (من 60)</td><td>${st.total}</td></tr>
+             <tr><td>الامتحان النهائي (من 40)</td><td>${st.final}</td></tr>
+             <tr style="font-weight:bold; background:#e5e7eb"><td>المجموع النهائي</td><td>${gt} / 100</td></tr>
+             <tr><td>التقدير</td><td>${getLevel(gt)}</td></tr>
+          </table>
+          <div style="margin-top:50px; display:flex; justify-content:space-between;">
+             <span>توقيع المعلم: .....................</span>
+             <span>توقيع ولي الأمر: .....................</span>
+          </div>
+        </div>
+      `;
       window.print();
-      printSection.style.display = "none";
     }
 
-    window.addEventListener("load", () => {
-      loadData();
-    });
+    window.onload = loadData;
   </script>
 </body>
 </html>
