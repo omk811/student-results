@@ -65,7 +65,9 @@
       gap: 25px;
     }
 
-    @media (max-width: 992px) { .main-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 992px) { 
+      .main-grid { grid-template-columns: 1fr; } 
+    }
 
     /* Cards Styles */
     .card {
@@ -125,6 +127,7 @@
     .quote-sidebar {
       background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
       display: flex; flex-direction: column; justify-content: center;
+      text-align: center;
     }
 
     .quote-icon { color: var(--primary); font-size: 2rem; margin-bottom: 15px; opacity: 0.5; }
@@ -136,7 +139,7 @@
     
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 15px;
       margin-bottom: 25px;
     }
@@ -147,26 +150,107 @@
       border-radius: 15px;
       text-align: center;
       border: 1px solid var(--border);
+      transition: 0.2s;
     }
 
-    .stat-card .val { font-size: 1.8rem; font-weight: 800; color: var(--primary); display: block; }
-    .stat-card .lbl { font-size: 0.85rem; color: var(--text-muted); }
+    .stat-card:hover {
+      background: rgba(255,255,255,0.06);
+    }
 
-    .table-container { overflow-x: auto; margin-top: 20px; border-radius: 12px; border: 1px solid var(--border); }
-    table { width: 100%; border-collapse: collapse; background: rgba(15, 23, 42, 0.4); }
-    th { background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight: 600; text-align: right; }
-    th, td { padding: 15px; border-bottom: 1px solid var(--border); text-align: center; }
+    .stat-card .val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: block;
+    }
+    .stat-card .lbl {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    /* Level Badge */
+    .level-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .level-badge.excellent { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+    .level-badge.very-good { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+    .level-badge.good { background: rgba(234, 179, 8, 0.2); color: #fde047; }
+    .level-badge.acceptable { background: rgba(249, 115, 22, 0.2); color: #fdba74; }
+    .level-badge.needs { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+
+    .table-container {
+      overflow-x: auto;
+      margin-top: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(15, 23, 42, 0.4);
+      min-width: 500px;
+    }
+
+    th {
+      background: rgba(0,0,0,0.2);
+      color: var(--text-muted);
+      font-weight: 600;
+      text-align: center;
+      padding: 14px;
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
     tr:last-child td { border-bottom: none; }
-    .highlight-row { background: rgba(16, 185, 129, 0.1) !important; font-weight: bold; }
-    .total-row { background: var(--primary) !important; color: white !important; }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .highlight-row {
+      background: rgba(16, 185, 129, 0.1) !important;
+      font-weight: bold;
+    }
+
+    .total-row {
+      background: var(--primary) !important;
+      color: white !important;
+      font-weight: bold;
+    }
 
     /* Status Messages */
     .status-alert {
-      padding: 12px 15px; border-radius: 10px; margin-top: 15px;
-      display: none; align-items: center; gap: 10px; font-size: 0.9rem;
+      padding: 12px 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
     }
-    .status-alert.error { display: flex; background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .status-alert.success { display: flex; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-alert.error {
+      display: flex;
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .status-alert.success {
+      display: flex;
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
 
     /* Print */
     @media print {
@@ -178,7 +262,50 @@
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-    footer { text-align: center; margin-top: 40px; color: var(--text-muted); font-size: 0.85rem; }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Responsive Table on Small Screens */
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead { display: none; }
+      tr {
+        padding: 15px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.5);
+      }
+      td {
+        text-align: right;
+        border: none;
+        position: relative;
+        padding-left: 45% !important;
+      }
+      td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        font-weight: bold;
+        color: var(--text-muted);
+      }
+      .highlight-row, .total-row {
+        background: var(--glass) !important;
+        color: var(--text-main) !important;
+      }
+      .highlight-row td:before,
+      .total-row td:before {
+        color: var(--primary);
+      }
+    }
   </style>
 </head>
 
@@ -276,12 +403,12 @@
       } finally { loading = false; }
     }
 
-    function getLevel(s) {
-      if (s >= 90) return "ممتاز (A)";
-      if (s >= 80) return "جيد جداً (B)";
-      if (s >= 65) return "جيد (C)";
-      if (s >= 50) return "مقبول (D)";
-      return "يحتاج تحسين (F)";
+    function getLevel(score) {
+      if (score >= 90) return { text: "ممتاز (A)", class: "excellent" };
+      if (score >= 80) return { text: "جيد جداً (B)", class: "very-good" };
+      if (score >= 65) return { text: "جيد (C)", class: "good" };
+      if (score >= 50) return { text: "مقبول (D)", class: "acceptable" };
+      return { text: "يحتاج تحسين (F)", class: "needs" };
     }
 
     function normalize(v) { return (v === -1 || v === "-1") ? "—" : (v ?? 0); }
@@ -302,28 +429,60 @@
       const st = results[id];
       currentStudentData = st;
       const grandTotal = st.total + (parseFloat(st.final) || 0);
+      const level = getLevel(grandTotal);
 
       resDiv.innerHTML = `
         <div class="stats-row">
-          <div class="stat-card"><span class="lbl">أعمال الفصل الأول </span><span class="val">${normalize(st.total)}/60</span></div>
-          <div class="stat-card"><span class="lbl">الاختبار النهائي</span><span class="val">${normalize(st.final)}/40</span></div>
-          <div class="stat-card"><span class="lbl">المجموع الكلي</span><span class="val">${grandTotal}/100</span></div>
-          <div class="stat-card"><span class="lbl">التقدير العام</span><span class="val" style="font-size:1.2rem">${getLevel(grandTotal)}</span></div>
+          <div class="stat-card">
+            <span class="lbl">أعمال الفصل الأول</span>
+            <span class="val">${normalize(st.total)}<small>/60</small></span>
+          </div>
+          <div class="stat-card">
+            <span class="lbl">الاختبار النهائي</span>
+            <span class="val">${normalize(st.final)}<small>/40</small></span>
+          </div>
+          <div class="stat-card">
+            <span class="lbl">المجموع الكلي</span>
+            <span class="val">${grandTotal}<small>/100</small></span>
+          </div>
+          <div class="stat-card">
+            <span class="lbl">التقدير العام</span>
+            <span class="val" style="font-size:1.2rem">${level.text}</span>
+            <span class="level-badge ${level.class}">${level.text}</span>
+          </div>
         </div>
         <div class="card">
           <div class="table-container">
             <table>
-              <thead><tr><th>التقييم</th><th>الدرجة الكبرى</th><th>درجة الطالب</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>نوع التقييم</th>
+                  <th>الدرجة</th>
+                  <th>درجة الطالب</th>
+                </tr>
+              </thead>
               <tbody>
-                <tr><td>العرض الشفوي</td><td>10</td><td>${normalize(st.oral)}</td></tr>
-                <tr><td>الواجب المنزلي</td><td>5</td><td>${normalize(st.homework)}</td></tr>
-                <tr><td>التسميع والاستماع</td><td>5</td><td>${normalize(st.listening)}</td></tr>
-                <tr><td>الاختبار القصير 1</td><td>15</td><td>${normalize(st.exam1)}</td></tr>
-                <tr><td>الاختبار القصير 2</td><td>15</td><td>${normalize(st.exam2)}</td></tr>
-                <tr><td>التعبير الكتابي</td><td>10</td><td>${normalize(st.writing)}</td></tr>
-                <tr class="highlight-row"><td>أعمال الفصل الأول</td><td>60</td><td>${normalize(st.total)}</td></tr>
-                <tr class="highlight-row"><td>الاختبار النهائي</td><td>40</td><td>${normalize(st.final)}</td></tr>
-                <tr class="total-row"><td>المجموع النهائي</td><td>100</td><td>${grandTotal}</td></tr>
+                <tr><td data-label="نوع التقييم">العرض الشفوي</td><td data-label="الدرجة">10</td><td data-label="درجة الطالب">${normalize(st.oral)}</td></tr>
+                <tr><td data-label="نوع التقييم">الواجب المنزلي</td><td data-label="الدرجة">5</td><td data-label="درجة الطالب">${normalize(st.homework)}</td></tr>
+                <tr><td data-label="نوع التقييم">التسميع والاستماع</td><td data-label="الدرجة">5</td><td data-label="درجة الطالب">${normalize(st.listening)}</td></tr>
+                <tr><td data-label="نوع التقييم">الاختبار القصير 1</td><td data-label="الدرجة">15</td><td data-label="درجة الطالب">${normalize(st.exam1)}</td></tr>
+                <tr><td data-label="نوع التقييم">الاختبار القصير 2</td><td data-label="الدرجة">15</td><td data-label="درجة الطالب">${normalize(st.exam2)}</td></tr>
+                <tr><td data-label="نوع التقييم">التعبير الكتابي</td><td data-label="الدرجة">10</td><td data-label="درجة الطالب">${normalize(st.writing)}</td></tr>
+                <tr class="highlight-row">
+                  <td data-label="نوع التقييم">أعمال الفصل الأول</td>
+                  <td data-label="الدرجة">60</td>
+                  <td data-label="درجة الطالب">${normalize(st.total)}</td>
+                </tr>
+                <tr class="highlight-row">
+                  <td data-label="نوع التقييم">الاختبار النهائي</td>
+                  <td data-label="الدرجة">40</td>
+                  <td data-label="درجة الطالب">${normalize(st.final)}</td>
+                </tr>
+                <tr class="total-row">
+                  <td data-label="نوع التقييم">المجموع النهائي</td>
+                  <td data-label="الدرجة">100</td>
+                  <td data-label="درجة الطالب">${grandTotal}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -336,6 +495,7 @@
       if (!currentStudentData) return;
       const st = currentStudentData;
       const gt = st.total + (parseFloat(st.final) || 0);
+      const level = getLevel(gt).text;
       const ps = document.getElementById("printSection");
       
       ps.innerHTML = `
@@ -351,7 +511,7 @@
              <tr><td>أعمال الفصل الأول (من 60)</td><td>${st.total}</td></tr>
              <tr><td>الامتحان النهائي (من 40)</td><td>${st.final}</td></tr>
              <tr style="font-weight:bold; background:#e5e7eb"><td>المجموع النهائي</td><td>${gt} / 100</td></tr>
-             <tr><td>التقدير</td><td>${getLevel(gt)}</td></tr>
+             <tr><td>التقدير</td><td>${level}</td></tr>
           </table>
           <div style="margin-top:50px; display:flex; justify-content:space-between;">
              <span>توقيع المعلم: الأستاذ خليل البلوشي </span>
@@ -366,5 +526,3 @@
   </script>
 </body>
 </html>
-
-
