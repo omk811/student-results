@@ -277,11 +277,11 @@
     }
 
     function getLevel(s) {
-      if (s >= 90) return "ممتاز (A)";
-      if (s >= 80) return "جيد جداً (B)";
-      if (s >= 65) return "جيد (C)";
-      if (s >= 50) return "مقبول (D)";
-      return "يحتاج تحسين (F)";
+      if (s >= 90) return "ممتاز ( أ )";
+      if (s >= 80) return "جيد جداً ( ب )";
+      if (s >= 65) return "جيد ( ج )";
+      if (s >= 50) return "مقبول ( د )";
+      return "يحتاج تحسين (ه ـ )";
     }
 
     function normalize(v) { return (v === -1 || v === "-1") ? "—" : (v ?? 0); }
@@ -366,4 +366,5 @@
   </script>
 </body>
 </html>
+
 
