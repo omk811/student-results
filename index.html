@@ -243,7 +243,7 @@
       if (!msg) { el.style.display = "none"; return; }
       el.style.display = "flex";
       el.className = "status-alert " + (type === 'error' ? 'error' : 'success');
-      el.innerHTML = <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> <span>${msg}</span>;
+      el.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> <span>${msg}</span>`;
     }
 
     async function loadData() {
@@ -303,7 +303,7 @@
       currentStudentData = st;
       const grandTotal = st.total + (parseFloat(st.final) || 0);
 
-      resDiv.innerHTML = 
+      resDiv.innerHTML = `
         <div class="stats-row">
           <div class="stat-card"><span class="lbl">أعمال الفصل الأول </span><span class="val">${normalize(st.total)}/60</span></div>
           <div class="stat-card"><span class="lbl">الاختبار النهائي</span><span class="val">${normalize(st.final)}/40</span></div>
@@ -328,7 +328,7 @@
             </table>
           </div>
         </div>
-      ;
+      `;
       printBtn.style.display = "flex";
     }
 
@@ -338,7 +338,7 @@
       const gt = st.total + (parseFloat(st.final) || 0);
       const ps = document.getElementById("printSection");
       
-      ps.innerHTML = 
+      ps.innerHTML = `
         <div style="text-align:center; direction:rtl; font-family:sans-serif; padding:30px;">
           <h2 style="color:#10b981">تقرير أداء الطالب في مادة اللغة العربية</h2>
           <hr>
@@ -358,11 +358,12 @@
              <span>توقيع ولي الأمر: .....................</span>
           </div>
         </div>
-      ;
+      `;
       window.print();
     }
 
     window.onload = loadData;
   </script>
+  
 </body>
 </html>
